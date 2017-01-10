@@ -918,10 +918,11 @@
                     item.appendChild($("<span class='delbtn' style='display:none;' url='" + list[i].url + "'>✖</span>").click(function() {
                         var del = $(this);
                         try{
-                            window.event.cancelBubble = true; //停止冒泡
-                            window.event.returnValue = false; //阻止事件的默认行为
-                            window.event.preventDefault();    //取消事件的默认行为
-                            window.event.stopPropagation();   //阻止事件的传播
+                            var event = e || window.event;
+                            event.cancelBubble = true; //停止冒泡
+                            event.returnValue = false; //阻止事件的默认行为
+                            event.preventDefault();    //取消事件的默认行为
+                            event.stopPropagation();   //阻止事件的传播
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
                             $.post(editor.getOpt("serverUrl") + "&action=deleteimage", { "path": del.attr("url") }, function(result) {
