@@ -683,6 +683,7 @@
                         })(preview));
                         preview.width = 113;
                         preview.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
+                        /* 添加删除功能 */
                     } else {
                         var ic = document.createElement('i'),
                             textSpan = document.createElement('span');
@@ -703,6 +704,28 @@
 
                     item.appendChild(preview);
                     item.appendChild(icon);
+                    item.appendChild($("<span class='delbtn' style='display:none;' url='" + list[i].url + "'>✖</span>").click(function() {
+                        var del = $(this);
+                        try{
+                            window.event.cancelBubble = true; //停止冒泡
+                            window.event.returnValue = false; //阻止事件的默认行为
+                            window.event.preventDefault();    //取消事件的默认行为
+                            window.event.stopPropagation();   //阻止事件的传播
+                        } finally {
+                            if(!confirm("确定要删除吗？")) return;
+                            $.post(editor.getOpt("serverUrl") + "&action=deleteimage", { "path": del.attr("url") }, function(result) {
+                                if (result == "ok") del.parent().remove();
+                                else alert(result);
+                            });
+                        }
+                    })[0]);
+
+                    /* 添加删除按钮滑动事件 */
+                    $(item).mouseenter(function () {
+                        $(this).find('.delbtn').css('display','block');
+                    }).mouseleave(function(){
+                        $(this).find('.delbtn').css('display','none');
+                    });
                     this.list.insertBefore(item, this.clearFloat);
                 }
             }
