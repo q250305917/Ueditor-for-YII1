@@ -9,3 +9,4 @@
 其他版本修改请参照原创作者修改教程：http://lfei.org/ueditor-manage-image-delete/
 
 实际效果请参考上面教程，增加鼠标滑动事件，鼠标滑动显示删除按钮。
+相关Blog:https://y-yun.top/index.php/archives/117/
